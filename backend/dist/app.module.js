@@ -15,6 +15,7 @@ const users_module_1 = require("./users/users.module");
 const accounts_module_1 = require("./accounts/accounts.module");
 const instagram_module_1 = require("./instagram/instagram.module");
 const content_module_1 = require("./content/content.module");
+const video_processing_module_1 = require("./video-processing/video-processing.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -45,6 +46,7 @@ exports.AppModule = AppModule = __decorate([
             accounts_module_1.AccountsModule,
             instagram_module_1.InstagramModule,
             content_module_1.ContentModule,
+            video_processing_module_1.VideoProcessingModule,
         ],
     })
 ], AppModule);

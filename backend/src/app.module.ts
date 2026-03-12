@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { InstagramModule } from './instagram/instagram.module';
 import { ContentModule } from './content/content.module';
+import { VideoProcessingModule } from './video-processing/video-processing.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ContentModule } from './content/content.module';
     AccountsModule,
     InstagramModule,
     ContentModule,
+    VideoProcessingModule,
   ],
 })
 export class AppModule {}
