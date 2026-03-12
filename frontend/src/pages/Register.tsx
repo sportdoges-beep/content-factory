@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import { useRegisterMutation } from '../app/api/apiSlice';
@@ -12,7 +11,7 @@ export default function Register() {
       await register(values).unwrap();
       message.success('Account created! Please login.');
       navigate('/login');
-    } catch (err) {
+    } catch {
       message.error('Registration failed');
     }
   };

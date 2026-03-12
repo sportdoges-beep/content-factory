@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { ParentAccount } from '../accounts/entities/parent-account.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 export enum ContentStatus {
   PENDING = 'pending',
@@ -18,10 +17,6 @@ export class ContentItem {
 
   @Column()
   parentAccountId: string;
-
-  @ManyToOne(() => ParentAccount)
-  @JoinColumn({ name: 'parentAccountId' })
-  parentAccount: ParentAccount;
 
   @Column()
   externalMediaId: string;

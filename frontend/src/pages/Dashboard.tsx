@@ -1,5 +1,5 @@
 import { Card, Row, Col, Statistic } from 'antd';
-import { UserAddOutlined, InstagramOutlined, FileImageOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { InstagramOutlined, FileImageOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useGetAccountsQuery, useGetContentQuery } from '../app/api/apiSlice';
 
 export default function Dashboard() {

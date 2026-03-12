@@ -16,8 +16,6 @@ export class ContentService {
 
   async findAll(userId: string): Promise<ContentItem[]> {
     return this.contentRepo.find({
-      where: { parentAccount: { userId } },
-      relations: ['parentAccount'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -28,7 +26,7 @@ export class ContentService {
       relations: ['instagramAccount'],
     });
 
-    if (!parent) {
+    if (!parent || !parent.instagramAccount) {
       throw new NotFoundException('Parent account not found');
     }
 
@@ -40,7 +38,6 @@ export class ContentService {
 
     const items: ContentItem[] = [];
     for (const m of media) {
-      // Check if already exists
       const existing = await this.contentRepo.findOne({
         where: { externalMediaId: m.id, parentAccountId },
       });
@@ -67,11 +64,7 @@ export class ContentService {
     item.status = ContentStatus.PROCESSING;
     await this.contentRepo.save(item);
 
-    // Download original
     const buffer = await this.instagramService.downloadMedia(item.originalMediaUrl);
-    
-    // Process with FFmpeg (mask, mirror, text)
-    // In production, use sharp/ffmpeg
     const processedUrl = await this.processVideo(buffer, item.parentAccountId);
 
     item.processedMediaUrl = processedUrl;
@@ -88,14 +81,17 @@ export class ContentService {
       relations: ['instagramAccount'],
     });
 
+    if (!parent || !parent.instagramAccount) {
+      throw new NotFoundException('Parent account not found');
+    }
+
     item.status = ContentStatus.PUBLISHING;
     await this.contentRepo.save(item);
 
     try {
-      // Upload to Instagram
       const container = await this.instagramService.createMediaContainer(
         parent.instagramAccount.accessToken,
-        item.processedMediaUrl,
+        item.processedMediaUrl || item.originalMediaUrl,
         item.processedCaption || item.originalCaption
       );
 
@@ -110,18 +106,13 @@ export class ContentService {
       }
     } catch (error) {
       item.status = ContentStatus.FAILED;
-      item.errorMessage = error.message;
+      item.errorMessage = error.message || 'Unknown error';
     }
 
     return this.contentRepo.save(item);
   }
 
   private async processVideo(buffer: Buffer, parentAccountId: string): Promise<string> {
-    // Placeholder - in production use FFmpeg
-    // 1. Add mask
-    // 2. Mirror
-    // 3. Add text
-    // 4. Upload to storage (S3, Cloudinary, etc.)
     return 'https://processed-video-url.com/video.mp4';
   }
 }

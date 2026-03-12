@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLoginMutation } from '../app/api/apiSlice';
@@ -13,7 +12,7 @@ export default function Login() {
       localStorage.setItem('token', result.accessToken);
       message.success('Welcome back!');
       navigate('/');
-    } catch (err) {
+    } catch {
       message.error('Invalid credentials');
     }
   };

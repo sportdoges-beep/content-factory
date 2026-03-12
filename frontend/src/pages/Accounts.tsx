@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, Button, Modal, Form, Input, Switch, Card, message, Tag } from 'antd';
-import { PlusOutlined, DeleteOutlined, InstagramOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useGetAccountsQuery, useGetParentAccountsQuery, useAddAccountMutation, useAddParentAccountMutation, useDeleteAccountMutation } from '../app/api/apiSlice';
 
 export default function Accounts() {
@@ -22,7 +22,7 @@ export default function Accounts() {
       setIsModalOpen(false);
       form.resetFields();
       refetch();
-    } catch (err) {
+    } catch {
       message.error('Failed to add account');
     }
   };
@@ -33,7 +33,7 @@ export default function Accounts() {
       message.success('Parent account added!');
       setIsParentModalOpen(false);
       parentForm.resetFields();
-    } catch (err) {
+    } catch {
       message.error('Failed to add parent account');
     }
   };
@@ -43,7 +43,7 @@ export default function Accounts() {
       await deleteAccount(id).unwrap();
       message.success('Account deleted');
       refetch();
-    } catch (err) {
+    } catch {
       message.error('Failed to delete');
     }
   };
